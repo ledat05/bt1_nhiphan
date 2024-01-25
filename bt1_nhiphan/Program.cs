@@ -21,10 +21,10 @@ namespace bt1_nhiphan
                 right = null;
             }
         }
-        class Timkiem
+        class TimkiemCayNhiPhan
         {
             public TNode Root;
-            public Timkiem()
+            public TimkiemCayNhiPhan()
             {
                 Root = null;
             }
@@ -57,8 +57,81 @@ namespace bt1_nhiphan
                     Console.Write($"{root.Info}");
                 }
             }
+            public void ThemNode(ref TNode root, int x)
+            {
+                if (root == null)
+                {
+                    TNode p = new TNode(x);
+                    root = p;
+                }
+                else if (root.Info > x)
+                    ThemNode(ref root.left, x);
+                else if (root.Info < x)
+                    ThemNode(ref root.right, x);
+            }
+            public void Taocay()
+            {
+                Console.WriteLine("Cho biết số nút trong cây:");
+                int n = int.Parse(Console.ReadLine());
+                for (int i = 0; i <= n; i++)
+                {
+                    Console.Write("Nhập giá trị Node thu " + i + ":");
+                    int x = int.Parse(Console.ReadLine());
+                    ThemNode(ref Root, x);
+                }
+
+
+            }
+            public TNode TiemKiem(TNode root, int x)
+            {
+                TNode ketqua = null;
+                if (root != null)
+                {
+                    if (root.Info == x)
+                        ketqua = root;
+                    else if (x < root.Info)
+                        ketqua = TiemKiem(root.left, x);
+                    else
+                        ketqua = TiemKiem(root.right, x);
+                }
+                return ketqua;
+
+            }
             static void Main(string[] args)
             {
+                Console.OutputEncoding=Encoding.UTF8;
+                string chon = "y";
+
+                while (chon.ToLower() != "n")
+                {
+                    TimkiemCayNhiPhan tkcnp = new TimkiemCayNhiPhan();
+                    tkcnp.Taocay();
+                    Console.WriteLine("Ket qua duyet cay:");
+
+                    Console.Write("\n NLR:");
+                    tkcnp.NLR(tkcnp.Root);
+
+                    Console.Write("\n LNR:");
+                    tkcnp.LNR(tkcnp.Root);
+
+                    Console.Write("\n LRN:");
+                    tkcnp.LRN(tkcnp.Root);
+
+                    Console.WriteLine("\nGiá trị nút cần tìm:");
+                    int x = int.Parse(Console.ReadLine());
+                    TNode ketqua = tkcnp.TiemKiem(tkcnp.Root, x);
+                    if (ketqua == null)
+                    {
+                        Console.WriteLine($"{x} khong xuat hien trong cay");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{x} co xuat hien trong cay");
+                    }
+
+                    Console.Write("\n Tiếp tục (y/n)? ");
+                    chon = Console.ReadLine();
+                }
             }
         }
     }
